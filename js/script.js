@@ -1,4 +1,4 @@
-console.clear();
+// console.clear();
 
 // 创建场景对象 Scene
 const scene = new THREE.Scene();
@@ -32,6 +32,13 @@ controls.noPan = true;
 controls.maxDistance = 3;
 controls.minDistance = 0.7;
 
+// const labelRenderer = new CSS2DRenderer();
+// labelRenderer.setSize(window.innerWidth, window.innerHeight);
+// labelRenderer.domElement.style.position = "absolute"; // 绝对定位，叠加在3D画布上
+// labelRenderer.domElement.style.top = "0"; // 置顶
+// labelRenderer.domElement.style.pointerEvents = "none"; // 避免遮挡3D场景交互
+// document.body.appendChild(labelRenderer.domElement);
+
 // 物体
 const group = new THREE.Group();
 scene.add(group);
@@ -49,6 +56,49 @@ new THREE.OBJLoader().load(
     heart.geometry.scale(0.04, 0.04, 0.04);
     heart.geometry.translate(0, -0.4, 0);
     group.add(heart);
+
+    // const nameDiv = document.createElement("div");
+    // nameDiv.textContent = "你的名字"; // 替换成要显示的名字（如“小明”）
+    // nameDiv.style.cssText = `
+    //   font-size: 24px;
+    //   color: #fff;
+    //   padding: 6px 12px;
+    //   background: rgba(255, 51, 153, 0.7); // 玫红色半透明背景
+    //   border-radius: 4px;
+    //   font-family: Arial, sans-serif;
+    // `;
+    // // 将HTML元素包装成Three.js的2D对象
+    // const nameLabel = new CSS2DObject(nameDiv);
+    // // 调整文字位置（根据爱心实际中心微调，这里0,0,0对应爱心中心）
+    // nameLabel.position.set(0, -0.4, 0); // 因爱心translate了-0.4，文字同步偏移
+    // group.add(nameLabel); // 加入爱心组，确保和爱心一起旋转/缩放
+
+    const fontLoader = new THREE.FontLoader();
+    fontLoader.load(
+      "https://cdn.jsdelivr.net/npm/three@0.132.2/examples/fonts/helvetiker_regular.typeface.json",
+      (font) => {
+        const textGeo = new THREE.TextGeometry("Cecily", {
+          font: font,
+          size: 0.06, // 关键：缩小文字尺寸
+          height: 0.005,
+          curveSegments: 8,
+          bevelEnabled: false,
+        });
+        textGeo.center();
+
+        // 优化材质：自发光让文字更突出
+        const textMaterial = new THREE.MeshPhongMaterial({
+          color: 0xff3399,
+          emissive: 0xff3399,
+          emissiveIntensity: 1,
+        });
+        const textMesh = new THREE.Mesh(textGeo, textMaterial);
+
+        // 调整位置：z 轴后移，避免遮挡
+        textMesh.position.set(0, 0.05, 0.1);
+        group.add(textMesh);
+      }
+    );
 
     // 基础网格材质
     heart.material = new THREE.MeshBasicMaterial({
