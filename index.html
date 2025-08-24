@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh">
   <head>
     <meta charset="UTF-8" />
@@ -6,15 +6,28 @@
     <title>Heart Beat</title>
 
     <link rel="stylesheet" href="css/style.css" />
+
+    <!-- 第一步：先引入 Three.js 核心库（所有扩展库依赖它） -->
+
+    <script src="js/three.min.js"></script>
+
+    <!-- 第二步：引入 Three.js 扩展库（按逻辑顺序，均在核心库之后） -->
+    <!-- 2D文字/3D文字依赖 -->
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FontLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/geometries/TextGeometry.js"></script>
+
+    <!-- 其他扩展库（控制器、加载器等） -->
+    <script src="js/TrackballControls.js"></script>
+    <script src="js/OBJLoader.js"></script>
+    <script src="js/MeshSurfaceSampler.js"></script>
   </head>
 
   <body>
-    <script src="js/three.min.js"></script>
-    <script src="js/MeshSurfaceSampler.js"></script>
-    <script src="js/TrackballControls.js"></script>
+    <!-- 第三步：引入非 Three.js 依赖和业务代码（放在 body 末尾，确保DOM加载完成） -->
     <script src="js/simplex-noise.js"></script>
-    <script src="js/OBJLoader.js"></script>
     <script src="js/gsap.min.js"></script>
+    <!-- 最后引入你的核心业务代码 script.js -->
     <script src="js/script.js"></script>
   </body>
 </html>
